@@ -35,7 +35,8 @@ module Bamboozled
           case response.code
           when 200..201
             begin
-              JSON.parse(response).with_indifferent_access
+              respobj = JSON.parse(response)
+              respobj.try(:with_indifferent_access) || respobj
             rescue
               MultiXml.parse(response, symbolize_keys: true)
             end
